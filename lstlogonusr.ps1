@@ -4,13 +4,13 @@ $domainControllers = Get-ADDomainController -Filter * -Server $dc
 $lastLogon = $null
 
 foreach ($domainController in $domainControllers) {
-	    $userObject = Get-ADUser -Filter {samaccountname -eq $user} -Properties lastLogon -Server $domainController.HostName
-	        if ($userObject.lastLogon) {
-			        $logonTime = [DateTime]::FromFileTime($userObject.lastLogon)
-				        if ($lastLogon -eq $null -or $logonTime -gt $lastLogon) {
-						            $lastLogon = $logonTime
-							            }
-								        }
+	$userObject = Get-ADUser -Filter {samaccountname -eq $user} -Properties lastLogon -Server $domainController.HostName
+		if ($userObject.lastLogon) {
+  			$logonTime = [DateTime]::FromFileTime($userObject.lastLogon)
+     				if ($lastLogon -eq $null -or $logonTime -gt $lastLogon) {
+					$lastLogon = $logonTime
+					}
+			}
 }
 
 if ($lastLogon) {
